@@ -6,23 +6,21 @@ using System.Threading.Tasks;
 
 namespace BowlingAppMVVM.ViewModel
 {
-    class BowlerFrameViewModel : FrameViewModelBase
+    class OneShotBowlerFrameViewModel : FrameViewModelBase
     {
         #region Members definition
         public SHOT_VALUE First { get; set; }
-        
-        public SHOT_VALUE Second { get; set; }
         #endregion Members definition
 
         #region Constructors definition
-        public BowlerFrameViewModel()
+        public OneShotBowlerFrameViewModel()
         {
 
         }
         #endregion Constructors defintition
 
         #region Methods definition
-        public override SHOT_VALUE GetShotScore(SHOT shot)
+        public override SHOT_VALUE GetShotScore(SHOT shot = SHOT.First)
         {
             throw new NotImplementedException();
         }

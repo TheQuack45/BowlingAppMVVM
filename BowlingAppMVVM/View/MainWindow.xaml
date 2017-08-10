@@ -6,12 +6,127 @@
         xmlns:local="clr-namespace:BowlingAppMVVM"
         xmlns:View="clr-namespace:BowlingAppMVVM.View"
         xmlns:ViewModel="clr-namespace:BowlingAppMVVM.ViewModel"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
         mc:Ignorable="d"
-        Title="Bowling" Height="600" Width="1200" ResizeMode="NoResize">
+        Title="Bowling" SizeToContent="WidthAndHeight" ResizeMode="NoResize">
     <Window.DataContext>
         <ViewModel:MainWindowViewModel/>
     </Window.DataContext>
+    <Window.Resources>
+        <Style x:Key="MainWindowGeneralStyle" TargetType="ListBox">
+            <Setter Property="FontSize" Value="22"/>
+        </Style>
+
+        <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
+            <Setter Property="Padding" Value="8"/>
+        </Style>
+
+        <View:ShotConverter x:Key="ShotConverter"/>
+        <View:FrameTemplateSelector x:Key="FrameTemplateSelector"/>
+        <View:ScoreConverter x:Key="ScoreConverter"/>
+
+        <DataTemplate x:Key="BowlerFrameTemplate">
+            <Grid Margin="2,2,2,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="firstBallComboBox" Grid.Row="0" Grid.Column="0"
+                          Style="{StaticResource ComboBoxStyle}"
+                          SelectedIndex="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=firstBallComboBox, Path=SelectedValue}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="0"/>
+                        <ComboBoxItem Content="1"/>
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="3"/>
+                        <ComboBoxItem Content="4"/>
+                        <ComboBoxItem Content="5"/>
+                        <ComboBoxItem Content="6"/>
+                        <ComboBoxItem Content="7"/>
+                        <ComboBoxItem Content="8"/>
+                        <ComboBoxItem Content="9"/>
+                        <ComboBoxItem Content="X"/>
+                    </ComboBox.Items>
+                </ComboBox>
+                <ComboBox x:Name="secondBallComboBox" Grid.Row="0" Grid.Column="1" 
+                          Style="{StaticResource ComboBoxStyle}"
+                          SelectedIndex="{Binding Path=Second, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                    <ComboBoxItem Content="0"/>
+                    <ComboBoxItem Content="1"/>
+                    <ComboBoxItem Content="2"/>
+                    <ComboBoxItem Content="3"/>
+                    <ComboBoxItem Content="4"/>
+                    <ComboBoxItem Content="5"/>
+                    <ComboBoxItem Content="6"/>
+                    <ComboBoxItem Content="7"/>
+                    <ComboBoxItem Content="8"/>
+                    <ComboBoxItem Content="9"/>
+                    <ComboBoxItem Content="/"/>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="FinalBowlerFrameTemplate">
+            <Grid Margin="2,2,2,2">
+                <Grid.RowDefinitions>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <ComboBox x:Name="firstBallComboBox" Grid.Row="0" Grid.Column="0"
+                          Style="{StaticResource ComboBoxStyle}"
+                          SelectedIndex="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                    <ComboBox.Items>
+                        <ComboBoxItem Content="0"/>
+                        <ComboBoxItem Content="1"/>
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="3"/>
+                        <ComboBoxItem Content="4"/>
+                        <ComboBoxItem Content="5"/>
+                        <ComboBoxItem Content="6"/>
+                        <ComboBoxItem Content="7"/>
+                        <ComboBoxItem Content="8"/>
+                        <ComboBoxItem Content="9"/>
+                        <ComboBoxItem Content="X"/>
+                    </ComboBox.Items>
+                </ComboBox>
+            </Grid>
+        </DataTemplate>
+    </Window.Resources>
     <Grid>
-        
+        <ListBox Margin="10,10,10,10" HorizontalContentAlignment="Stretch" Style="{StaticResource MainWindowGeneralStyle}" ItemsSource="{Binding Path=Players, UpdateSourceTrigger=PropertyChanged}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical" Margin="2,2,2,2">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition/>
+                                <ColumnDefinition Width="1in"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBox Grid.Row="0" Grid.Column="0" Text="{Binding Path=PlayerName, UpdateSourceTrigger=PropertyChanged}"/>
+                            <TextBox Grid.Row="0" Grid.Column="1" HorizontalContentAlignment="Right" IsReadOnly="True" Text="{Binding Path=Score, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ScoreConverter}}"/>
+                        </Grid>
+                        <ListBox ItemsSource="{Binding Path=Frames, UpdateSourceTrigger=PropertyChanged}" ItemTemplateSelector="{StaticResource FrameTemplateSelector}">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <StackPanel Orientation="Horizontal"/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
     </Grid>
 </Window>
