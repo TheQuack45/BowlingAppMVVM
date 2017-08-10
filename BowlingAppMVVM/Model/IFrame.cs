@@ -11,6 +11,7 @@ namespace BowlingAppMVVM.Model
         #region Properties declaration
         Game.SHOT_VALUE this[int index] { get; set; }
         (int, Game.SCORE_STATE) Score { get; }
+        Game.SHOT_VALUE[] Shots { get; }
         #endregion Properties declaration
     }
 }

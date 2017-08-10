@@ -38,9 +38,5 @@ namespace BowlingAppMVVM.Model
             this.Players = new Player[playerCount];
         }
         #endregion Constructors definition
-
-        #region Methods definition
-
-        #endregion Methods definition
     }
 }

@@ -13,11 +13,11 @@ namespace BowlingAppMVVM.Model
         {
             get
             {
-                return this._shots[index];
+                return this.Shots[index];
             }
             set
             {
-                this._shots[index] = value;
+                this.Shots[index] = value;
             }
         }
         public (int, Game.SCORE_STATE) Score
@@ -28,13 +28,13 @@ namespace BowlingAppMVVM.Model
             }
         }
 
-        private readonly Game.SHOT_VALUE[] _shots;
+        public Game.SHOT_VALUE[] Shots { get; private set; }
         #endregion Members definition
 
         #region Constructors definition
         public Frame()
         {
-            this._shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined, Game.SHOT_VALUE.Undefined };
+            this.Shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined, Game.SHOT_VALUE.Undefined };
         }
         #endregion Constructors definition
 

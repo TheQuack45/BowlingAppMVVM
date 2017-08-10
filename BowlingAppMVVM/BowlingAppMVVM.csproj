@@ -74,10 +74,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Model\Frame.cs" />
+    <Compile Include="Model\Game.cs" />
+    <Compile Include="Model\IFrame.cs" />
+    <Compile Include="Model\OneShotFrame.cs" />
+    <Compile Include="Model\Player.cs" />
     <Compile Include="ViewModel\BowlerFrameViewModel.cs" />
-    <Compile Include="ViewModel\NoParamDelegateCommand.cs" />
+    <Compile Include="ViewModel\NoParamRelayCommand.cs" />
     <Compile Include="ViewModel\FrameViewModelBase.cs" />
     <Compile Include="ViewModel\OneShotBowlerFrameViewModel.cs" />
+    <Compile Include="ViewModel\RelayCommand.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FrameTemplateSelector.cs" />
     <Compile Include="View\ScoreConverter.cs" />
@@ -124,9 +130,7 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Model\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5.2">
       <Visible>False</Visible>
