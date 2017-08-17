@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BowlingAppMVVM.Model
 {
-    public class Game
+    public class Game : INotifyPropertyChanged
     {
         #region Static members definition
         public enum SHOT_VALUE { Zero, One, Two, Three, Four, Five, Six, Seven, Eight, Nine, Spare, Strike, Undefined };
@@ -29,8 +31,26 @@ namespace BowlingAppMVVM.Model
         #endregion Static members definition
 
         #region Members definition
-        public Player[] Players { get; private set; }
+        private Player[] _players;
+
+        #region INotifyPropertyChanged members
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion INotifyPropertyChanged members
         #endregion Members definition
+
+        #region Properties definition
+        public Player[] Players
+        {
+            get
+            {
+                return this._players;
+            }
+            private set
+            {
+                this.SetProperty<Player[]>(ref this._players, value);
+            }
+        }
+        #endregion Properties definition
 
         #region Constructors definition
         public Game(int playerCount = 4)
@@ -38,5 +58,24 @@ namespace BowlingAppMVVM.Model
             this.Players = new Player[playerCount];
         }
         #endregion Constructors definition
+
+        #region Methods definition
+        private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return false;
+            }
+
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }
+        #endregion Methods definition
     }
 }

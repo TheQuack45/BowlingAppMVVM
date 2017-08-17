@@ -1,21 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace BowlingAppMVVM.Model
 {
-    public class Player
+    public class Player : INotifyPropertyChanged
     {
         #region Members definition
-        public string Name { get; set; }
-        public FrameBase[] Frames { get; private set; }
+        private string _name;
+        private FrameBase[] _frames;
+
+        #region INotifyPropertyChanged members
+        public event PropertyChangedEventHandler PropertyChanged;
+        #endregion INotifyPropertyChangedMembers;
+        #endregion Members definition
+
+        #region Properties definition
+        public string Name
+        {
+            get
+            {
+                return this._name;
+            }
+            set
+            {
+                this.SetProperty<string>(ref this._name, value);
+            }
+        }
+        public FrameBase[] Frames
+        {
+            get
+            {
+                return this._frames;
+            }
+            private set
+            {
+                this.SetProperty<FrameBase[]>(ref this._frames, value);
+            }
+        }
         public int Score
         {
             get { return this.CalculateScore(); }
         }
-        #endregion Members definition
+        #endregion Properties definition
 
         #region Constructors definition
         public Player(string name = "")
@@ -101,6 +132,23 @@ namespace BowlingAppMVVM.Model
         {
             // sn(f,s) = 2(f - 1) + s
             return (2 * (frameNumber - 1)) + shotNumber;
+        }
+
+        private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Equals(storage, value))
+            {
+                return false;
+            }
+
+            storage = value;
+            this.RaisePropertyChanged(propertyName);
+            return true;
+        }
+
+        private void RaisePropertyChanged([CallerMemberName] string propertyName = null)
+        {
+            this.PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
         }
         #endregion Methods definition
     }

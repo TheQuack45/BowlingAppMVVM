@@ -45,7 +45,8 @@ namespace BowlingAppMVVM.Model
         #region Constructors definition
         public OneShotFrame()
         {
-            this._shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined };
+            Game.SHOT_VALUE[] shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined, };
+            this.SetProperty<Game.SHOT_VALUE[]>(ref this._shots, shots);
         }
         #endregion Constructors definition
 
