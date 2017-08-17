@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace BowlingAppMVVM.Model
 {
-    public class OneShotFrame : IFrame
+    public class OneShotFrame : FrameBase
     {
-        #region Members definition
-        public Game.SHOT_VALUE this[int index]
+        #region Properties definition
+        public override Game.SHOT_VALUE this[int index]
         {
             get
             {
-                return this.Shots[index];
+                return this._shots[index];
             }
             set
             {
-                this.Shots[index] = value;
+                this.SetShot(index, value);
             }
         }
-        public (int, Game.SCORE_STATE) Score
+
+        public override (int, Game.SCORE_STATE) Score
         {
             get
             {
@@ -28,14 +29,23 @@ namespace BowlingAppMVVM.Model
             }
         }
 
-        // TODO: Make sure the user does not input a spare for this frame
-        public Game.SHOT_VALUE[] Shots { get; private set; }
+        public override Game.SHOT_VALUE[] Shots
+        {
+            get
+            {
+                return this._shots;
+            }
+        }
+        #endregion Properties definition
+
+        #region Members definition
+        private readonly Game.SHOT_VALUE[] _shots;
         #endregion Members definition
 
         #region Constructors definition
         public OneShotFrame()
         {
-            this.Shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined };
+            this._shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined };
         }
         #endregion Constructors definition
 
@@ -50,6 +60,17 @@ namespace BowlingAppMVVM.Model
             {
                 return (Game.ShotScores[this[0]], Game.SCORE_STATE.Standard);
             }
+        }
+
+        private void SetShot(int index, Game.SHOT_VALUE value)
+        {
+            if (value == Game.SHOT_VALUE.Spare)
+            {
+                // TODO: Should this throw an exception?
+                return;
+            }
+
+            this.SetProperty<Game.SHOT_VALUE>(ref this._shots[index], value);
         }
         #endregion Methods definition
     }

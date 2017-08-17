@@ -39,7 +39,7 @@
                           SelectedIndex="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
-                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}" CommandParameter="{Binding ElementName=firstBallComboBox, Path=SelectedValue}"/>
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ComboBox.Items>
@@ -59,6 +59,11 @@
                 <ComboBox x:Name="secondBallComboBox" Grid.Row="0" Grid.Column="1" 
                           Style="{StaticResource ComboBoxStyle}"
                           SelectedIndex="{Binding Path=Second, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ComboBoxItem Content="0"/>
                     <ComboBoxItem Content="1"/>
                     <ComboBoxItem Content="2"/>
@@ -84,6 +89,11 @@
                 <ComboBox x:Name="firstBallComboBox" Grid.Row="0" Grid.Column="0"
                           Style="{StaticResource ComboBoxStyle}"
                           SelectedIndex="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="SelectionChanged">
+                            <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ComboBox.Items>
                         <ComboBoxItem Content="0"/>
                         <ComboBoxItem Content="1"/>

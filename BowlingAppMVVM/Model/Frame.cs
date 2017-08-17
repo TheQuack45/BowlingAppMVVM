@@ -6,21 +6,22 @@ using System.Threading.Tasks;
 
 namespace BowlingAppMVVM.Model
 {
-    public class Frame : IFrame
+    public class Frame : FrameBase
     {
-        #region Members definition
-        public Game.SHOT_VALUE this[int index]
+        #region Properties definition   
+        public override Game.SHOT_VALUE this[int index]
         {
             get
             {
-                return this.Shots[index];
+                return this._shots[index];
             }
             set
             {
-                this.Shots[index] = value;
+                this.SetShot(index, value);
             }
         }
-        public (int, Game.SCORE_STATE) Score
+
+        public override (int, Game.SCORE_STATE) Score
         {
             get
             {
@@ -28,13 +29,23 @@ namespace BowlingAppMVVM.Model
             }
         }
 
-        public Game.SHOT_VALUE[] Shots { get; private set; }
+        public override Game.SHOT_VALUE[] Shots
+        {
+            get
+            {
+                return this._shots;
+            }
+        }
+        #endregion Properties definition
+
+        #region Members definition
+        private readonly Game.SHOT_VALUE[] _shots;
         #endregion Members definition
 
         #region Constructors definition
         public Frame()
         {
-            this.Shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined, Game.SHOT_VALUE.Undefined };
+            this._shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined, Game.SHOT_VALUE.Undefined };
         }
         #endregion Constructors definition
 
@@ -54,6 +65,11 @@ namespace BowlingAppMVVM.Model
                 int score = Game.ShotScores[this[0]] + Game.ShotScores[this[1]];
                 return (score, Game.SCORE_STATE.Standard);
             }
+        }
+
+        private void SetShot(int index, Game.SHOT_VALUE value)
+        {
+            this.SetProperty<Game.SHOT_VALUE>(ref this._shots[index], value);
         }
         #endregion Methods definition
     }

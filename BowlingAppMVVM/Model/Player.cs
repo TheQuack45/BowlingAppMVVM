@@ -10,7 +10,7 @@ namespace BowlingAppMVVM.Model
     {
         #region Members definition
         public string Name { get; set; }
-        public IFrame[] Frames { get; private set; }
+        public FrameBase[] Frames { get; private set; }
         public int Score
         {
             get { return this.CalculateScore(); }
@@ -21,7 +21,7 @@ namespace BowlingAppMVVM.Model
         public Player(string name = "")
         {
             this.Name = name;
-            this.Frames = new IFrame[10]
+            this.Frames = new FrameBase[10]
             {
                 new Frame(),
                 new Frame(),
@@ -44,7 +44,7 @@ namespace BowlingAppMVVM.Model
 
             // TODO: Is this LINQ necessary?
             (int score, Game.SCORE_STATE state)[] scores = this.Frames.Select((frame) => frame.Score).ToArray();
-            Game.SHOT_VALUE[] shots = this.Frames.SelectMany<IFrame, Game.SHOT_VALUE>((frame) => frame.Shots).ToArray();
+            Game.SHOT_VALUE[] shots = this.Frames.SelectMany<FrameBase, Game.SHOT_VALUE>((frame) => frame.Shots).ToArray();
 
             for (int i = 0; i < scores.Length; i++)
             {

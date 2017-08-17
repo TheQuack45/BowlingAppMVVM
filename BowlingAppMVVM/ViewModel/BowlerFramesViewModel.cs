@@ -18,18 +18,18 @@ namespace BowlingAppMVVM.ViewModel
         public ObservableCollection<FrameViewModelBase> Frames { get; private set; }
 
         #region Command members
-        private ICommand _selectionChangedCommand;
-        public ICommand SelectionChangedCommand
-        {
-            get
-            {
-                if (_selectionChangedCommand == null)
-                {
-                    _selectionChangedCommand = new NoParamRelayCommand(() => { this.UpdateScore(); });
-                }
-                return _selectionChangedCommand;
-            }
-        }
+        //private ICommand _selectionChangedCommand;
+        //public ICommand SelectionChangedCommand
+        //{
+        //    get
+        //    {
+        //        if (_selectionChangedCommand == null)
+        //        {
+        //            _selectionChangedCommand = new NoParamRelayCommand(() => { this.UpdateScore(); });
+        //        }
+        //        return _selectionChangedCommand;
+        //    }
+        //}
         #endregion Command members
         #endregion Members definition
 

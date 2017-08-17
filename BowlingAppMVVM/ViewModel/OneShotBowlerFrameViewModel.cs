@@ -20,15 +20,17 @@ namespace BowlingAppMVVM.ViewModel
         #endregion Constructors defintition
 
         #region Methods definition
-        public override SHOT_VALUE GetShotScore(SHOT shot = SHOT.First)
-        {
-            throw new NotImplementedException();
-        }
+        //public override SHOT_VALUE GetShotScore(SHOT shot = SHOT.First)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public override (int score, SCORE_STATE state) GetScore()
-        {
-            throw new NotImplementedException();
-        }
+        //public override (int score, SCORE_STATE state) GetScore()
+        //{
+        //    throw new NotImplementedException();
+        //}
+
+
         #endregion Methods definition
     }
 }
