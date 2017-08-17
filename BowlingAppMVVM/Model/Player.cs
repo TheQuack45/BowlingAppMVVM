@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -12,7 +13,7 @@ namespace BowlingAppMVVM.Model
     {
         #region Members definition
         private string _name;
-        private FrameBase[] _frames;
+        private ObservableCollection<FrameBase> _frames;
 
         #region INotifyPropertyChanged members
         public event PropertyChangedEventHandler PropertyChanged;
@@ -31,7 +32,7 @@ namespace BowlingAppMVVM.Model
                 this.SetProperty<string>(ref this._name, value);
             }
         }
-        public FrameBase[] Frames
+        public ObservableCollection<FrameBase> Frames
         {
             get
             {
@@ -39,7 +40,7 @@ namespace BowlingAppMVVM.Model
             }
             private set
             {
-                this.SetProperty<FrameBase[]>(ref this._frames, value);
+                this.SetProperty<ObservableCollection<FrameBase>>(ref this._frames, value);
             }
         }
         public int Score
@@ -52,7 +53,7 @@ namespace BowlingAppMVVM.Model
         public Player(string name = "")
         {
             this.Name = name;
-            this.Frames = new FrameBase[10]
+            this.Frames = new ObservableCollection<FrameBase>()
             {
                 new Frame(),
                 new Frame(),

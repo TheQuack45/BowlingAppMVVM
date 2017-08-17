@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
@@ -31,7 +32,7 @@ namespace BowlingAppMVVM.Model
         #endregion Static members definition
 
         #region Members definition
-        private Player[] _players;
+        private ObservableCollection<Player> _players;
 
         #region INotifyPropertyChanged members
         public event PropertyChangedEventHandler PropertyChanged;
@@ -39,7 +40,7 @@ namespace BowlingAppMVVM.Model
         #endregion Members definition
 
         #region Properties definition
-        public Player[] Players
+        public ObservableCollection<Player> Players
         {
             get
             {
@@ -47,7 +48,7 @@ namespace BowlingAppMVVM.Model
             }
             private set
             {
-                this.SetProperty<Player[]>(ref this._players, value);
+                this.SetProperty<ObservableCollection<Player>>(ref this._players, value);
             }
         }
         #endregion Properties definition
@@ -55,7 +56,14 @@ namespace BowlingAppMVVM.Model
         #region Constructors definition
         public Game(int playerCount = 4)
         {
-            this.Players = new Player[playerCount];
+            var players = new ObservableCollection<Player>()
+            {
+                new Player(),
+                new Player(),
+                new Player(),
+                new Player(),
+            };
+            this.Players = players;
         }
         #endregion Constructors definition
 
