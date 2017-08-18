@@ -54,20 +54,21 @@ namespace BowlingAppMVVM.Model
         #endregion Properties definition
 
         #region Constructors definition
-        public Game(int playerCount = 4)
+        public Game()
         {
-            var players = new ObservableCollection<Player>()
-            {
-                new Player(),
-                new Player(),
-                new Player(),
-                new Player(),
-            };
-            this.Players = players;
+            this.Players = new ObservableCollection<Player>();
         }
         #endregion Constructors definition
 
         #region Methods definition
+        public void StartGame(int playerCount = 4)
+        {
+            for (int i = 0; i < playerCount; i++)
+            {
+                this.Players.Add(new Player());
+            }
+        }
+
         private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
         {
             if (Equals(storage, value))

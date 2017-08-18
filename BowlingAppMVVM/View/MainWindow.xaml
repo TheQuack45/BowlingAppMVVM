@@ -19,6 +19,7 @@
 
         <Style x:Key="ComboBoxStyle" TargetType="ComboBox">
             <Setter Property="Padding" Value="8"/>
+            <Setter Property="Width" Value="45"/>
         </Style>
 
         <View:ShotConverter x:Key="ShotConverter"/>
@@ -36,13 +37,14 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox x:Name="firstBallComboBox" Grid.Row="0" Grid.Column="0"
                           Style="{StaticResource ComboBoxStyle}"
-                          SelectedIndex="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                          SelectedValue="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ComboBox.Items>
+                        <ComboBoxItem Content=""/>
                         <ComboBoxItem Content="0"/>
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>
@@ -58,23 +60,26 @@
                 </ComboBox>
                 <ComboBox x:Name="secondBallComboBox" Grid.Row="0" Grid.Column="1" 
                           Style="{StaticResource ComboBoxStyle}"
-                          SelectedIndex="{Binding Path=Second, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                          SelectedValue="{Binding Path=Second, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <ComboBoxItem Content="0"/>
-                    <ComboBoxItem Content="1"/>
-                    <ComboBoxItem Content="2"/>
-                    <ComboBoxItem Content="3"/>
-                    <ComboBoxItem Content="4"/>
-                    <ComboBoxItem Content="5"/>
-                    <ComboBoxItem Content="6"/>
-                    <ComboBoxItem Content="7"/>
-                    <ComboBoxItem Content="8"/>
-                    <ComboBoxItem Content="9"/>
-                    <ComboBoxItem Content="/"/>
+                    <ComboBox.Items>
+                        <ComboBoxItem Content=""/>
+                        <ComboBoxItem Content="0"/>
+                        <ComboBoxItem Content="1"/>
+                        <ComboBoxItem Content="2"/>
+                        <ComboBoxItem Content="3"/>
+                        <ComboBoxItem Content="4"/>
+                        <ComboBoxItem Content="5"/>
+                        <ComboBoxItem Content="6"/>
+                        <ComboBoxItem Content="7"/>
+                        <ComboBoxItem Content="8"/>
+                        <ComboBoxItem Content="9"/>
+                        <ComboBoxItem Content="/"/>
+                    </ComboBox.Items>
                 </ComboBox>
             </Grid>
         </DataTemplate>
@@ -88,13 +93,14 @@
                 </Grid.ColumnDefinitions>
                 <ComboBox x:Name="firstBallComboBox" Grid.Row="0" Grid.Column="0"
                           Style="{StaticResource ComboBoxStyle}"
-                          SelectedIndex="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
+                          SelectedValue="{Binding Path=First, UpdateSourceTrigger=PropertyChanged, Converter={StaticResource ShotConverter}}">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="SelectionChanged">
                             <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ComboBox.Items>
+                        <ComboBoxItem Content=""/>
                         <ComboBoxItem Content="0"/>
                         <ComboBoxItem Content="1"/>
                         <ComboBoxItem Content="2"/>

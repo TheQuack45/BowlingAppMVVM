@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using BowlingAppMVVM.Model;
+using System.Collections.Specialized;
 
 namespace BowlingAppMVVM.ViewModel
 {
@@ -23,19 +24,18 @@ namespace BowlingAppMVVM.ViewModel
         /// </summary>
         public MainWindowViewModel()
         {
-            // TODO: Should the ViewModel know about the concept of a Player? Moreover, should it have a list of them?
-            Players = new ObservableCollection<BowlerFramesViewModel>();
-            Players.Add(new BowlerFramesViewModel());
-            Players.Add(new BowlerFramesViewModel());
-            Players.Add(new BowlerFramesViewModel());
-            Players.Add(new BowlerFramesViewModel());
-            this._game = new Game(Players.Count);
-            // TODO: Wire up ViewModel to Model.
+            this._game = new Game();
+            this._game.Players.CollectionChanged += new NotifyCollectionChangedEventHandler(UpdatePlayers);
+            this._game.StartGame();
         }
         #endregion Constructors definition
 
         #region Methods definition
-
+        private void UpdatePlayers(object sender, NotifyCollectionChangedEventArgs args)
+        {
+            this.Players = new ObservableCollection<BowlerFramesViewModel>(this._game.Players.Select((player) => new BowlerFramesViewModel(player)).ToList());
+            RaisePropertyChanged(nameof(Players));
+        }
         #endregion Methods Definition
     }
 }

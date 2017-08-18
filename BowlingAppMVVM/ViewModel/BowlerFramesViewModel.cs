@@ -6,16 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using BowlingAppMVVM.Model;
 
 namespace BowlingAppMVVM.ViewModel
 {
     class BowlerFramesViewModel : ViewModelBase
     {
         #region Members definition
-        public string PlayerName { get; set; }
-        public int Score { get; set; }
-
-        public ObservableCollection<FrameViewModelBase> Frames { get; private set; }
+        private readonly Player _player;
 
         #region Command members
         //private ICommand _selectionChangedCommand;
@@ -33,25 +31,44 @@ namespace BowlingAppMVVM.ViewModel
         #endregion Command members
         #endregion Members definition
 
+        #region Properties definition
+        public string PlayerName
+        {
+            get
+            {
+                return this._player.Name;
+            }
+            set
+            {
+                this._player.Name = value;
+            }
+        }
+
+        public int Score { get; set; }
+
+        public ObservableCollection<FrameViewModelBase> Frames { get; private set; }
+        #endregion Properties definition
+
         #region Constructors definition
         /// <summary>
         /// Represents the ViewModel for the BowlerFrames.xaml View.
         /// </summary>
-        public BowlerFramesViewModel(string playerName = "")
+        public BowlerFramesViewModel(Player player)
         {
-            this.PlayerName = playerName;
-            RaisePropertyChanged(PlayerName);
+            this._player = player;
             this.Frames = new ObservableCollection<FrameViewModelBase>();
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new BowlerFrameViewModel());
-            this.Frames.Add(new OneShotBowlerFrameViewModel());
+
+            foreach (FrameBase frame in player.Frames)
+            {
+                if (frame is Frame)
+                {
+                    this.Frames.Add(new BowlerFrameViewModel((Frame)frame));
+                }
+                else if (frame is OneShotFrame)
+                {
+                    this.Frames.Add(new OneShotBowlerFrameViewModel((OneShotFrame)frame));
+                }
+            }
         }
         #endregion Constructors definition
 

@@ -8,6 +8,10 @@ namespace BowlingAppMVVM.Model
 {
     public class OneShotFrame : FrameBase
     {
+        #region Members definition
+        private readonly Game.SHOT_VALUE[] _shots;
+        #endregion Members definition
+
         #region Properties definition
         public override Game.SHOT_VALUE this[int index]
         {
@@ -37,10 +41,6 @@ namespace BowlingAppMVVM.Model
             }
         }
         #endregion Properties definition
-
-        #region Members definition
-        private readonly Game.SHOT_VALUE[] _shots;
-        #endregion Members definition
 
         #region Constructors definition
         public OneShotFrame()

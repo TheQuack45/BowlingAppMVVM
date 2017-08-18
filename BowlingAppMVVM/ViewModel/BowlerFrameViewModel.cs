@@ -4,15 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using BowlingAppMVVM.Model;
+using System.ComponentModel;
 
 namespace BowlingAppMVVM.ViewModel
 {
     class BowlerFrameViewModel : FrameViewModelBase
     {
         #region Members definition
-        public SHOT_VALUE First { get; set; }
-
-        public SHOT_VALUE Second { get; set; }
+        private readonly Frame _frame;
 
         #region Command members
         //private ICommand _selectionChangedCommand;
@@ -30,10 +30,28 @@ namespace BowlingAppMVVM.ViewModel
         #endregion Command members
         #endregion Members definition
 
-        #region Constructors definition
-        public BowlerFrameViewModel()
+        #region Properties definition
+        // TODO: This should be a collection of shots. Not individual properties.
+        // That would also allow a better class structure.
+        public Utility.SHOT_VALUE First
         {
+            get
+            {
+                return Utility.ModelToViewModelShots[this._frame[0]];
+            }
+            set
+            {
+                this._frame[0] = Utility.ViewModelToModelShots[value];
+            }
+        }
+        public Utility.SHOT_VALUE Second { get; set; }
+        #endregion Properties definition
 
+        #region Constructors definition
+        public BowlerFrameViewModel(Frame frame)
+        {
+            this._frame = frame;
+            this._frame.PropertyChanged += new PropertyChangedEventHandler(UpdateShots);
         }
         #endregion Constructors defintition
 
@@ -48,7 +66,16 @@ namespace BowlingAppMVVM.ViewModel
         //    throw new NotImplementedException();
         //}
 
+        private void UpdateShots(object sender, PropertyChangedEventArgs args)
+        {
+            Game.SHOT_VALUE first = this._frame.Shots[0];
+            Game.SHOT_VALUE second = this._frame.Shots[1];
 
+            this.First = Utility.ModelToViewModelShots[first];
+            RaisePropertyChanged(nameof(First));
+            this.Second = Utility.ModelToViewModelShots[second];
+            RaisePropertyChanged(nameof(Second));
+        }
         #endregion Methods definition
     }
 }

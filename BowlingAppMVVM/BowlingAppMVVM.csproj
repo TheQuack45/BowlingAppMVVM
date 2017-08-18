@@ -84,6 +84,7 @@
     <Compile Include="ViewModel\FrameViewModelBase.cs" />
     <Compile Include="ViewModel\OneShotBowlerFrameViewModel.cs" />
     <Compile Include="ViewModel\RelayCommand.cs" />
+    <Compile Include="ViewModel\Utility.cs" />
     <Compile Include="ViewModel\ViewModelBase.cs" />
     <Compile Include="View\FrameTemplateSelector.cs" />
     <Compile Include="View\ScoreConverter.cs" />
