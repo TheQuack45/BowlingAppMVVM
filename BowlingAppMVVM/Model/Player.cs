@@ -15,6 +15,9 @@ namespace BowlingAppMVVM.Model
         private string _name;
         private ObservableCollection<FrameBase> _frames;
 
+        public delegate void ShotChangedEventHandler();
+        public event ShotChangedEventHandler ShotChanged;
+
         #region INotifyPropertyChanged members
         public event PropertyChangedEventHandler PropertyChanged;
         #endregion INotifyPropertyChangedMembers;
@@ -55,21 +58,29 @@ namespace BowlingAppMVVM.Model
             this.Name = name;
             this.Frames = new ObservableCollection<FrameBase>()
             {
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new Frame(),
-                new OneShotFrame(),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new Frame(FrameChangedHandler),
+                new OneShotFrame(FrameChangedHandler),
             };
         }
         #endregion Constructors definition
 
         #region Methods definition
+        public void FrameChangedHandler(object sender, PropertyChangedEventArgs args)
+        {
+            if (sender is FrameBase)
+            {
+                this.ShotChanged?.Invoke();
+            }
+        }
+
         public int CalculateScore()
         {
             int total = 0;
@@ -88,26 +99,28 @@ namespace BowlingAppMVVM.Model
                     break;
                 }
 
-                int shotNumber = GetShotIndex(i, 1);
-                if (scores[i].state == Game.SCORE_STATE.Spare)
+                if (scores[i].state != Game.SCORE_STATE.Standard)
                 {
-                    // TODO: Access shot one ahead.
-                    // How to go from an indexed score tuple (frame) to the current shot?
-                    shotNumber++;
-                    total += GetNextScore(shots, ref shotNumber);
-                }
-                else if (shots[shotNumber] == Game.SHOT_VALUE.Strike)
-                {
-                    // First shot was a strike.
-                    total += GetNextScore(shots, ref shotNumber);
-                    total += GetNextScore(shots, ref shotNumber);
-                }
-                else if (shots[shotNumber + 1] == Game.SHOT_VALUE.Strike)
-                {
-                    // Second shot was a strike.
-                    shotNumber++;
-                    total += GetNextScore(shots, ref shotNumber);
-                    total += GetNextScore(shots, ref shotNumber);
+                    int shotNumber = GetShotIndex(i, 1);
+                    if (scores[i].state == Game.SCORE_STATE.Spare)
+                    {
+                        // How to go from an indexed score tuple (frame) to the current shot?
+                        shotNumber++;
+                        total += GetNextScore(shots, ref shotNumber);
+                    }
+                    else if (shots[shotNumber] == Game.SHOT_VALUE.Strike)
+                    {
+                        // First shot was a strike.
+                        total += GetNextScore(shots, ref shotNumber);
+                        total += GetNextScore(shots, ref shotNumber);
+                    }
+                    else if (shots[shotNumber + 1] == Game.SHOT_VALUE.Strike)
+                    {
+                        // Second shot was a strike.
+                        shotNumber++;
+                        total += GetNextScore(shots, ref shotNumber);
+                        total += GetNextScore(shots, ref shotNumber);
+                    }
                 }
             }
 
@@ -121,6 +134,11 @@ namespace BowlingAppMVVM.Model
             do
             {
                 shotNumber++;
+                if (shotNumber >= shots.Length)
+                {
+                    return 0;
+                }
+
                 if (!(shots[shotNumber] == Game.SHOT_VALUE.Undefined || shots[shotNumber] == Game.SHOT_VALUE.Spare || shots[shotNumber] == Game.SHOT_VALUE.Strike))
                 {
                     nextScore = Game.ShotScores[shots[shotNumber]];
@@ -132,7 +150,7 @@ namespace BowlingAppMVVM.Model
         private static int GetShotIndex(int frameNumber, int shotNumber)
         {
             // sn(f,s) = 2(f - 1) + s
-            return (2 * (frameNumber - 1)) + shotNumber;
+            return (2 * (frameNumber - 1)) + shotNumber + 1;
         }
 
         private bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)

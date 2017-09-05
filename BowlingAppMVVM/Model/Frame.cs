@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,8 +44,9 @@ namespace BowlingAppMVVM.Model
         #endregion Properties definition
 
         #region Constructors definition
-        public Frame()
+        public Frame(PropertyChangedEventHandler handler)
         {
+            this.PropertyChanged += handler;
             Game.SHOT_VALUE[] shots = new Game.SHOT_VALUE[] { Game.SHOT_VALUE.Undefined, Game.SHOT_VALUE.Undefined, };
             this.SetProperty<Game.SHOT_VALUE[]>(ref this._shots, shots);
         }

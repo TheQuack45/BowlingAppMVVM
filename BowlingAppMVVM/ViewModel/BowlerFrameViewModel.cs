@@ -44,7 +44,17 @@ namespace BowlingAppMVVM.ViewModel
                 this._frame[0] = Utility.ViewModelToModelShots[value];
             }
         }
-        public Utility.SHOT_VALUE Second { get; set; }
+        public Utility.SHOT_VALUE Second
+        {
+            get
+            {
+                return Utility.ModelToViewModelShots[this._frame[1]];
+            }
+            set
+            {
+                this._frame[1] = Utility.ViewModelToModelShots[value];
+            }
+        }
         #endregion Properties definition
 
         #region Constructors definition

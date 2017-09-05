@@ -55,6 +55,9 @@ namespace BowlingAppMVVM.ViewModel
         /// </summary>
         public BowlerFramesViewModel(Player player)
         {
+            // TODO: I don't think this ShotChanged event stuff is handled very well.
+            // I get the feeling that there should be some enforcement that ShotChanged needs to have a delegate added to it at some point.
+            player.ShotChanged += UpdateScore;
             this._player = player;
             this.Frames = new ObservableCollection<FrameViewModelBase>();
 
@@ -75,8 +78,8 @@ namespace BowlingAppMVVM.ViewModel
         #region Methods definition
         private void UpdateScore()
         {
-            // TODO: Implement this
-            throw new NotImplementedException();
+            this.Score = this._player.Score;
+            RaisePropertyChanged(nameof(this.Score));
         }
         #endregion Methods Definition
     }
